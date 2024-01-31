@@ -1,5 +1,5 @@
-import CreateFarmerDto from './types/create-farmer.dto'
-import Farmer from './types/farmer'
+import CreateFarmerDto from '../types/create-farmer.dto'
+import Farmer from '../types/farmer'
 import z from 'zod'
 
 /**
@@ -9,7 +9,7 @@ import z from 'zod'
  * @param farmers - An array of Farmer objects representing the existing list of farmers.
  * @returns Returns a valid CreateFarmerDto if the request body is valid, otherwise returns false.
  */
-const validate = (requestBody: unknown, farmers: Farmer[]): CreateFarmerDto | false => {
+export const validate = (requestBody: unknown, farmers: Farmer[]): CreateFarmerDto | false => {
   /** Zod schema for validating a farmer creation request. */
   const farmerSchema = z.object({
     name: z.string().min(3),
@@ -63,5 +63,3 @@ const isIdCardUnique = (idCardNumber: string, farmers: Farmer[]): boolean => {
 
   return true
 }
-
-export default validate

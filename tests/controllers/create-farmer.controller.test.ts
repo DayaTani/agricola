@@ -1,4 +1,4 @@
-import * as validateModule from '../../src/validate'
+import * as validator from '../../src/services/validator'
 import CreateFarmerDto from '../../src/types/create-farmer.dto'
 import Farmer from '../../src/types/farmer'
 import createFarmer from '../../src/controllers/create-farmer.controller'
@@ -16,7 +16,7 @@ describe('createFarmer', () => {
       idCardNumber: '1234567890',
       birthDate: '1990-05-15',
     }
-    const validateSpy = jest.spyOn(validateModule, 'default')
+    const validateSpy = jest.spyOn(validator, 'validate')
     validateSpy.mockReturnValue(validDto)
 
     const farmers: Farmer[] = [sampleFarmer]
@@ -41,7 +41,7 @@ describe('createFarmer', () => {
 
   it('should return a failure result when validation fails', () => {
     // Prepare
-    const validateSpy = jest.spyOn(validateModule, 'default')
+    const validateSpy = jest.spyOn(validator, 'validate')
 
     validateSpy.mockReturnValue(false)
 
