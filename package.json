@@ -1,0 +1,11 @@
+{
+  "name": "agricola",
+  "version": "1.0.0",
+  "description": "Hypothetical DayaTani farmer backend server for Frontend and Mobile Engineer assignments.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marhadiasha Kusumawardhana",
+  "license": "UNLICENSED"
+}
