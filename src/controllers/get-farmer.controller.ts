@@ -1,4 +1,5 @@
 import Farmer from '../types/farmer'
+import { findFarmer } from '../services/farmerFinder'
 
 /**
  * Function to get a Farmer by ID from an array of Farmers.
@@ -8,23 +9,12 @@ import Farmer from '../types/farmer'
  * @returns The found Farmer object or null if not found.
  */
 const getFarmer = (farmers: Farmer[], rawId: string): Farmer | null => {
-  /** Parsed integer ID. */
-  const id = parseInt(rawId)
-  if (isNaN(id) || id <= 0) {
+  const farmerIndex = findFarmer(farmers, rawId)
+  if (farmerIndex === null) {
     return null
   }
 
-  /** Farmer object matching the provided ID. */
-  let foundFarmer: Farmer | null = null
-
-  for (const farmer of farmers) {
-    if (farmer.id === id) {
-      foundFarmer = farmer
-      break
-    }
-  }
-
-  return foundFarmer
+  return farmers[farmerIndex]
 }
 
 export default getFarmer
