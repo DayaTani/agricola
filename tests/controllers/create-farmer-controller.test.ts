@@ -6,10 +6,13 @@ import createFarmer from '../../src/controllers/create-farmer.controller'
 describe('createFarmer', () => {
   const sampleFarmer: Farmer = { id: 1, name: 'Ingrid Bergman', idCardNumber: '0123456789', birthDate: '1911-02-01'}
 
-  it('should create a new farmer and return success result', () => {
+  it.each([
+    ['James Stewart', 1],
+    ['Humphrey Bogart', 0],
+  ])('should create a new farmer and return success result', (name, arrayIndexAfterInsertion) => {
     // Prepare
     const validDto: CreateFarmerDto = {
-      name: 'John Doe',
+      name,
       idCardNumber: '1234567890',
       birthDate: '1990-05-15',
     }
@@ -28,7 +31,7 @@ describe('createFarmer', () => {
     })
 
     expect(farmers).toHaveLength(2)
-    expect(farmers[1]).toStrictEqual({ ...validDto, id: 4 })
+    expect(farmers[arrayIndexAfterInsertion]).toStrictEqual({ ...validDto, id: 4 })
 
     expect(validateSpy).toHaveBeenCalledWith(validDto, farmers)
 

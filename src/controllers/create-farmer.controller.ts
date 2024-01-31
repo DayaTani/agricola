@@ -3,7 +3,8 @@ import Farmer from '../types/farmer'
 import validate from '../validate'
 
 /**
- * Creates a new farmer based on the provided request body and adds it to the list of farmers.
+ * Creates a new farmer based on the provided request body, adds it to the list of farmers,
+ * and sorts the farmers array alphabetically by name.
  *
  * @param requestBody - The request body containing farmer information.
  * @param farmers - An array of existing farmers.
@@ -23,8 +24,8 @@ const createFarmer = (requestBody: unknown, farmers: Farmer[], nextFarmerId: num
     id: nextFarmerId,
   }
 
-  /** Add the new farmer to the list of existing farmers. */
   farmers.push(newFarmer)
+  farmers.sort((a, b) => a.name < b.name ? -1 : 1)
 
   /** Represents the result of the create operation, indicating success and the next farmer ID. */
   return {

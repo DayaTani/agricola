@@ -4,11 +4,11 @@ import validate from '../src/validate'
 
 describe('validate function', () => {
   const farmers: Farmer[] = [
-    { id: 1, name: 'Humphrey Bogart', idCardNumber: '1234567890', birthDate: '1899-12-25' },
-    { id: 2, name: 'Katharine Hepburn', idCardNumber: '2345678901', birthDate: '1907-05-12' },
     { id: 3, name: 'Cary Grant', idCardNumber: '3456789012', birthDate: '1904-01-18' },
+    { id: 1, name: 'Humphrey Bogart', idCardNumber: '1234567890', birthDate: '1899-12-25' },
     { id: 4, name: 'Ingrid Bergman', idCardNumber: '4567890123', birthDate: '1915-08-29' },
     { id: 5, name: 'James Stewart', idCardNumber: '5678901234', birthDate: '1908-05-20' },
+    { id: 2, name: 'Katharine Hepburn', idCardNumber: '2345678901', birthDate: '1907-05-12' },
   ]
 
   test.each([
