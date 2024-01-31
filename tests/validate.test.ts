@@ -16,8 +16,10 @@ describe('validate function', () => {
     { name: 'Miriam Hopkins', idCardNumber: '0345678901', birthDate: '1902-10-18' },
     { name: 'Humphrey Bogart', idCardNumber: '0456789012', birthDate: '1899-12-25', extra: 'value' },
   ])('should return a valid CreateFarmerDto for valid input', requestBody => {
+    // Execute
     const result = validate(requestBody, farmers)
 
+    // Assert
     expect(result).toEqual<CreateFarmerDto>({
       name: requestBody.name,
       idCardNumber: requestBody.idCardNumber,
@@ -34,9 +36,10 @@ describe('validate function', () => {
     { name: 'Humphrey Bogart', idCardNumber: '123456789', birthDate: '1908-1-20' },
     { name: 'Humphrey Bogart', idCardNumber: 123456789, birthDate: false },
   ])('should return false for invalid or missing fields', requestBody => {
-
+    // Execute
     const result = validate(requestBody, farmers)
 
+    // Assert
     expect(result).toBe(false)
   })
 
@@ -44,15 +47,18 @@ describe('validate function', () => {
     '2022-00-15',
     '2022-13-15',
     '2022-02-00',
-  ])('should return false for semantically invalid birthdate', birthDate => {
+  ])('should return false for semantically invalid birth date', birthDate => {
+    // Prepare
     const requestBody = {
       name: 'Jane Doe',
       idCardNumber: '1234567890',
       birthDate,
     }
 
+    // Execute
     const result = validate(requestBody, farmers)
 
+    // Assert
     expect(result).toBe(false)
   })
 
@@ -63,14 +69,17 @@ describe('validate function', () => {
     '4567890123',
     '5678901234',
   ])('should return false for existing ID card number', idCardNumber => {
+    // Prepare
     const requestBody = {
       name: 'Jane Doe',
       idCardNumber,
       birthDate: '1915-01-34',
     }
 
+    // Execute
     const result = validate(requestBody, farmers)
 
+    // Assert
     expect(result).toBe(false)
   })
 })
