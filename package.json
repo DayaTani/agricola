@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "Hypothetical DayaTani farmer backend server for Frontend and Mobile Engineer assignments.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">= 20.11.0"
   },
   "author": "Marhadiasha Kusumawardhana",
   "license": "UNLICENSED",
