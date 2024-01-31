@@ -8,7 +8,7 @@ describe('listFarmers', () => {
     { id: 9, name: 'Dustin Hoffman', idCardNumber: '9012345678', birthDate: '1937-08-08' },
     { id: 8, name: 'Harrison Ford', idCardNumber: '8901234567', birthDate: '1942-07-13' },
     { id: 2, name: 'Jack Lemmon', idCardNumber: '2345678901', birthDate: '1925-02-08' },
-    { id: 10, name: 'Jane Fonda', idCardNumber: '2345678901', birthDate: '1937-12-21' },
+    { id: 10, name: 'Jane Fonda', idCardNumber: '2345678924', birthDate: '1937-12-21' },
     { id: 3, name: 'John Wayne', idCardNumber: '3456789012', birthDate: '1907-05-26' },
     { id: 4, name: 'Marilyn Monroe', idCardNumber: '4567890123', birthDate: '1926-06-01' },
     { id: 7, name: 'Meryl Streep', idCardNumber: '7890123456', birthDate: '1949-06-22' },
