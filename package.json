@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Hypothetical DayaTani farmer backend server for Frontend and Mobile Engineer assignments.",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "start": "rm -rf ./dist && tsc && node ./dist/index.js",
     "lint": "eslint .",
