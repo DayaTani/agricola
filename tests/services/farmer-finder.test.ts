@@ -1,5 +1,5 @@
 import Farmer from '../../src/types/farmer'
-import { findFarmer } from '../../src/services/farmerFinder'
+import { findFarmer } from '../../src/services/farmer-finder'
 
 describe('findFarmer', () => {
   const farmers: Farmer[] = [

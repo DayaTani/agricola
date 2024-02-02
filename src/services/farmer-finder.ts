@@ -14,15 +14,8 @@ export const findFarmer = (farmers: Farmer[], rawId: string): number | null => {
     return null
   }
 
-  /** Index of the found farmer in the array, or null if not found. */
-  let foundIndex: number | null = null
+  /** Index of the found farmer in the array, or -1 if not found. */
+  const foundIndex = farmers.findIndex(farmer => farmer.id === id)
 
-  for (let i = 0; i < farmers.length; i++) {
-    if (farmers[i].id === id) {
-      foundIndex = i
-      break
-    }
-  }
-
-  return foundIndex
+  return foundIndex >= 0 ? foundIndex : null
 }

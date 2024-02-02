@@ -1,5 +1,5 @@
 import Farmer from '../types/farmer'
-import { findFarmer } from '../services/farmerFinder'
+import { findFarmer } from '../services/farmer-finder'
 
 /**
  * Deletes a farmer from the array based on their ID.
