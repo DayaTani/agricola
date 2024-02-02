@@ -4,7 +4,7 @@
   "description": "Hypothetical DayaTani farmer backend server for Frontend and Mobile Engineer assignments.",
   "main": "index.js",
   "scripts": {
-    "start": "rm -rf ./dist && tsc && node ./dist/index.js",
+    "start": "rm -rf ./dist && tsc --project tsconfig.build.json && node ./dist/index.js",
     "lint": "eslint .",
     "test": "jest --coverage"
   },
