@@ -1,5 +1,5 @@
 import Farmer from '../../src/types/farmer'
-import deleteFarmer from '../../src/controllers/delete-farmer.controller'
+import deleteFarmer from '../../src/services/delete-farmer.service'
 
 describe('deleteFarmer', () => {
   let farmers: Farmer[]

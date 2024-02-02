@@ -1,5 +1,5 @@
 import Farmer from '../types/farmer'
-import { findFarmer } from '../services/farmer-finder'
+import { findFarmer } from './find-farmer.service'
 
 /**
  * Function to get a Farmer by ID from an array of Farmers.

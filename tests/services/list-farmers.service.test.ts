@@ -1,5 +1,5 @@
 import Farmer from '../../src/types/farmer'
-import listFarmers from '../../src/controllers/list-farmers.controller'
+import listFarmers from '../../src/services/list-farmers.service'
 
 describe('listFarmers', () => {
   const farmers: Farmer[] = [

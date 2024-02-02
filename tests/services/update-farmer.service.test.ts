@@ -1,7 +1,7 @@
-import * as validator from '../../src/services/validator'
+import * as validator from '../../src/services/validate.service'
 import Farmer from '../../src/types/farmer'
 import UpdateFarmerResult from '../../src/types/update-farmer-result'
-import updateFarmer from '../../src/controllers/update-farmer.controller'
+import updateFarmer from '../../src/services/update-farmer.service'
 
 describe('updateFarmer', () => {
   let farmers: Farmer[]

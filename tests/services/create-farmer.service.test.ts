@@ -1,7 +1,7 @@
-import * as validator from '../../src/services/validator'
+import * as validator from '../../src/services/validate.service'
 import CreateFarmerDto from '../../src/types/create-farmer.dto'
 import Farmer from '../../src/types/farmer'
-import createFarmer from '../../src/controllers/create-farmer.controller'
+import createFarmer from '../../src/services/create-farmer.service'
 
 describe('createFarmer', () => {
   const sampleFarmer: Farmer = { id: 1, name: 'Ingrid Bergman', idCardNumber: '0123456789', birthDate: '1911-02-01'}
