@@ -1,6 +1,6 @@
-import CreateFarmerDto from '../src/types/create-farmer.dto'
-import Farmer from '../src/types/farmer'
-import { validate } from '../src/services/validate.service'
+import CreateFarmerDto from '../../src/types/create-farmer.dto'
+import Farmer from '../../src/types/farmer'
+import { validate } from '../../src/services/validate.service'
 
 describe('validate function', () => {
   const farmers: Farmer[] = [
