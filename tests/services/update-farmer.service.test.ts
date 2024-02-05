@@ -6,6 +6,7 @@ import updateFarmer from '../../src/services/update-farmer.service'
 describe('updateFarmer', () => {
   let farmers: Farmer[]
   let originalFarmers: Farmer[]
+  let validateSpy: jest.SpyInstance
 
   beforeEach(() => {
     farmers = [
@@ -17,6 +18,12 @@ describe('updateFarmer', () => {
     ]
 
     originalFarmers = JSON.parse(JSON.stringify(farmers))
+
+    validateSpy = jest.spyOn(validator, 'validate')
+  })
+
+  afterEach(() => {
+    validateSpy.mockRestore()
   })
 
   it('should update a farmer successfully, then sort the farmers array by name', () => {
@@ -24,7 +31,6 @@ describe('updateFarmer', () => {
     const farmerId = '9'
     const requestBody = { name: 'Jennifer Aniston', idCardNumber: '1098765432', birthDate: '1969-02-11' }
 
-    const validateSpy = jest.spyOn(validator, 'validate')
     validateSpy.mockReturnValue(requestBody)
 
     // Execute
@@ -42,17 +48,12 @@ describe('updateFarmer', () => {
     ])
 
     expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers)
-
-    // Cleanup
-    validateSpy.mockRestore()
   })
 
   it('should return NotFound when farmer is not found', () => {
     // Prepare
     const farmerId = '123'
     const requestBody = { name: 'Updated John', idCardNumber: '67890', birthDate: '1995-05-05' }
-
-    const validateSpy = jest.spyOn(validator, 'validate')
 
     // Execute
     const result = updateFarmer(requestBody, farmers, farmerId)
@@ -62,9 +63,6 @@ describe('updateFarmer', () => {
     expect(farmers).toEqual(originalFarmers)
 
     expect(validateSpy).not.toHaveBeenCalled()
-
-    // Cleanup
-    validateSpy.mockRestore()
   })
 
   it('should return Invalid when validation fails', () => {
@@ -72,7 +70,6 @@ describe('updateFarmer', () => {
     const farmerId = '10'
     const requestBody = { invalidField: 'Invalid Data' }
 
-    const validateSpy = jest.spyOn(validator, 'validate')
     validateSpy.mockReturnValue(false)
 
     // Execute
@@ -83,8 +80,5 @@ describe('updateFarmer', () => {
     expect(farmers).toEqual(originalFarmers)
 
     expect(validateSpy).toHaveBeenCalledWith(requestBody, originalFarmers)
-
-    // Cleanup
-    validateSpy.mockRestore()
   })
 })

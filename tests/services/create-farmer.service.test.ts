@@ -5,6 +5,15 @@ import createFarmer from '../../src/services/create-farmer.service'
 
 describe('createFarmer', () => {
   const sampleFarmer: Farmer = { id: 1, name: 'Ingrid Bergman', idCardNumber: '0123456789', birthDate: '1911-02-01'}
+  let validateSpy: jest.SpyInstance
+
+  beforeEach(() => {
+    validateSpy = jest.spyOn(validator, 'validate')
+  })
+
+  afterEach(() => {
+    validateSpy.mockRestore()
+  })
 
   it.each([
     ['James Stewart', 1],
@@ -16,7 +25,6 @@ describe('createFarmer', () => {
       idCardNumber: '1234567890',
       birthDate: '1990-05-15',
     }
-    const validateSpy = jest.spyOn(validator, 'validate')
     validateSpy.mockReturnValue(validDto)
 
     const farmers: Farmer[] = [sampleFarmer]
@@ -34,15 +42,10 @@ describe('createFarmer', () => {
     expect(farmers[arrayIndexAfterInsertion]).toStrictEqual({ ...validDto, id: 4 })
 
     expect(validateSpy).toHaveBeenCalledWith(validDto, farmers)
-
-    // Cleanup
-    validateSpy.mockRestore()
   })
 
   it('should return a failure result when validation fails', () => {
     // Prepare
-    const validateSpy = jest.spyOn(validator, 'validate')
-
     validateSpy.mockReturnValue(false)
 
     const requestBody = { key: 'value' }
@@ -55,8 +58,5 @@ describe('createFarmer', () => {
     expect(result).toEqual({ success: false })
     expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers)
     expect(farmers).toHaveLength(1)
-
-    // Cleanup
-    validateSpy.mockRestore()
   })
 })
