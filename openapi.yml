@@ -1,0 +1,162 @@
+openapi: 3.1.0
+info:
+  title: Agricola API
+  version: 1.0.0
+  description: API for managing farmer information.
+
+paths:
+  /farmers:
+    get:
+      summary: Get a list of all farmers.
+      parameters:
+        - in: query
+          name: skip
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+          description: Number of farmers to skip (pagination).
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 100
+            default: 10
+          description: Maximum number of farmers to return (pagination).
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object 
+                description: Response containing a list of farmers.
+                properties:
+                  farmers:
+                    type: array
+                    description: List of farmers managed by the application.
+                    items:
+                      $ref: '#/components/schemas/Farmer'
+    post:
+      summary: Create a new farmer.
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FarmerDto'
+      responses:
+        '201':
+          description: Farmer created successfully.
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized. Basic Authentication required.
+
+  /farmers/{id}:
+    get:
+      summary: Get information about a specific farmer.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the farmer.
+      responses:
+        '200':
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Farmer'
+        '404':
+          description: Farmer not found.
+
+    put:
+      summary: Update information about a specific farmer.
+      security:
+        - basicAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the farmer.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FarmerDto'
+      responses:
+        '200':
+          description: Farmer updated successfully.
+        '400':
+          description: Bad request.
+        '401':
+          description: Unauthorized. Basic Authentication required.
+        '404':
+          description: Farmer not found.
+
+    delete:
+      summary: Delete a specific farmer.
+      security:
+        - basicAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the farmer.
+      responses:
+        '200':
+          description: Farmer deleted successfully.
+        '401':
+          description: Unauthorized. Basic Authentication required.
+        '404':
+          description: Farmer not found.
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    FarmerDto:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the farmer.
+          example: Mae Marsh
+        idCardNumber:
+          type: string
+          description: The ID card number of the farmer.
+          example: 0123456789
+        birthDate:
+          type: string
+          format: date
+          description: The birth date of the farmer (YYYY-MM-DD).
+          example: 1990-01-01
+      required:
+        - name
+        - idCardNumber
+        - birthDate
+
+    Farmer:
+      allOf:
+        - $ref: '#/components/schemas/FarmerDto' 
+        - type: object
+          properties:
+            id:
+              type: integer
+              description: The unique identifier for the farmer.
+              example: 1
+          required:
+            - id
