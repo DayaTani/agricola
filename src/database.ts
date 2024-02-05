@@ -9,7 +9,7 @@ const database: Database = {
     { id: 2, name: 'Lillian Gish', idCardNumber: '9876543210', birthDate: '1893-10-14' },
     { id: 3, name: 'Rudolph Valentino', idCardNumber: '0456789123', birthDate: '1895-05-06' },
   ],
-  nextFarmerId: 1,
+  nextFarmerId: 6,
 }
 
 export default database
