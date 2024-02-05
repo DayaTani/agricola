@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Agricola API
-  version: 1.0.0
+  version: 1.0.4
   description: API for managing farmer information.
 
 paths:
