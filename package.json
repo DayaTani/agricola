@@ -1,6 +1,6 @@
 {
   "name": "agricola",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Mock DayaTani farmer backend server for Frontend and Mobile Engineer assignments.",
   "main": "index.js",
   "scripts": {
