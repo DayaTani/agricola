@@ -1,18 +1,13 @@
-# Project Name
+# Agricola
 
-Brief description of your project goes here.
+Mock HTTP server designed to assist frontend and mobile engineer candidates with their take-home assignment. It provides essential backend functionalities for testing and development purposes.
 
 ## Table of Contents
 
-- [Purpose](#purpose)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
-
-## Purpose
-
-This mock HTTP server has been created to assist frontend and mobile engineer candidates with their take-home assignment. It offers all the expected backend functionalities that are assumed in the assignment. The primary purpose of this server is to facilitate testing and development of the frontend applications created by candidates.
 
 ## Prerequisites
 
