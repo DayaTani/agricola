@@ -8,7 +8,7 @@ describe('createFarmer', () => {
   let validateSpy: jest.SpyInstance
 
   beforeEach(() => {
-    validateSpy = jest.spyOn(validator, 'validate')
+    validateSpy = jest.spyOn(validator, 'default')
   })
 
   afterEach(() => {

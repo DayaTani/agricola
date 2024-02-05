@@ -1,6 +1,6 @@
 import CreateFarmerResult from '../types/create-farmer-result'
 import Farmer from '../types/farmer'
-import { validate } from './validate.service'
+import validate from './validate.service'
 
 /**
  * Creates a new farmer based on the provided request body, adds it to the list of farmers,

@@ -19,7 +19,7 @@ describe('updateFarmer', () => {
 
     originalFarmers = JSON.parse(JSON.stringify(farmers))
 
-    validateSpy = jest.spyOn(validator, 'validate')
+    validateSpy = jest.spyOn(validator, 'default')
   })
 
   afterEach(() => {

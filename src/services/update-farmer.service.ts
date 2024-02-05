@@ -2,7 +2,7 @@ import CreateFarmerDto from '../types/create-farmer.dto'
 import Farmer from '../types/farmer'
 import UpdateFarmerResult from '../types/update-farmer-result'
 import getFarmer from './get-farmer.service'
-import { validate } from './validate.service'
+import validate from './validate.service'
 
 /**
  * Updates a farmer's information based on the provided request body.
