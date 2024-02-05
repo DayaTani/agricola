@@ -17,13 +17,13 @@ Before you can use this mock HTTP server, ensure you have the following software
 
   1. Install NVM by following the instructions on the [NVM GitHub repository](https://github.com/nvm-sh/nvm#installing-and-updating).
 
-  2. Once NVM is installed, open a new terminal window and install Node.js version 20.11.0 or higher using the following command:
+  2. Once NVM is installed, open a new terminal window and install Node.js version 20 using the following command:
 
      ```bash
      nvm install v20
      ```
   
-  3. Set Node.js version 20.11.0 as the default for this project:
+  3. Set Node.js version 20 as the default for this project:
 
      ```bash
      nvm use v20
