@@ -1,6 +1,6 @@
-import CreateFarmerDto from '../../src/types/create-farmer.dto'
 import Farmer from '../../src/types/farmer'
-import { validate } from '../../src/services/validate.service'
+import FarmerDto from '../../src/types/farmer.dto'
+import validate from '../../src/services/validate.service'
 
 describe('validate function', () => {
   const farmers: Farmer[] = [
@@ -15,12 +15,12 @@ describe('validate function', () => {
     { name: 'James Stewart', idCardNumber: '0123456789', birthDate: '1908-05-20' },
     { name: 'Miriam Hopkins', idCardNumber: '0345678901', birthDate: '1902-10-18' },
     { name: 'Humphrey Bogart', idCardNumber: '0456789012', birthDate: '1899-12-25', extra: 'value' },
-  ])('should return a valid CreateFarmerDto for valid input', requestBody => {
+  ])('should return a valid FarmerDto for valid input', requestBody => {
     // Execute
     const result = validate(requestBody, farmers)
 
     // Assert
-    expect(result).toEqual<CreateFarmerDto>({
+    expect(result).toEqual<FarmerDto>({
       name: requestBody.name,
       idCardNumber: requestBody.idCardNumber,
       birthDate: requestBody.birthDate,

@@ -1,5 +1,5 @@
-import CreateFarmerDto from '../types/create-farmer.dto'
 import Farmer from '../types/farmer'
+import FarmerDto from '../types/farmer.dto'
 import z from 'zod'
 
 /**
@@ -7,9 +7,9 @@ import z from 'zod'
  *
  * @param requestBody - The request body to be validated.
  * @param farmers - An array of Farmer objects representing the existing list of farmers.
- * @returns Returns a valid CreateFarmerDto if the request body is valid, otherwise returns false.
+ * @returns Returns a valid FarmerDto if the request body is valid, otherwise returns false.
  */
-const validate = (requestBody: unknown, farmers: Farmer[]): CreateFarmerDto | false => {
+const validate = (requestBody: unknown, farmers: Farmer[]): FarmerDto | false => {
   /** Zod schema for validating a farmer creation request. */
   const farmerSchema = z.object({
     name: z.string().min(3),
@@ -23,8 +23,8 @@ const validate = (requestBody: unknown, farmers: Farmer[]): CreateFarmerDto | fa
     return false
   }
 
-  /** Represents the validated request body as a CreateFarmerDto object */
-  const zodValidRequestBody = result.data as CreateFarmerDto
+  /** Represents the validated request body as a FarmerDto object */
+  const zodValidRequestBody = result.data as FarmerDto
   if (!semanticValidateBirthDate(zodValidRequestBody.birthDate)) {
     return false
   }

@@ -1,6 +1,6 @@
 import * as validator from '../../src/services/validate.service'
-import CreateFarmerDto from '../../src/types/create-farmer.dto'
 import Farmer from '../../src/types/farmer'
+import FarmerDto from '../../src/types/farmer.dto'
 import createFarmer from '../../src/services/create-farmer.service'
 
 describe('createFarmer', () => {
@@ -20,7 +20,7 @@ describe('createFarmer', () => {
     ['Humphrey Bogart', 0],
   ])('should create a new farmer and return success result', (name, arrayIndexAfterInsertion) => {
     // Prepare
-    const validDto: CreateFarmerDto = {
+    const validDto: FarmerDto = {
       name,
       idCardNumber: '1234567890',
       birthDate: '1990-05-15',

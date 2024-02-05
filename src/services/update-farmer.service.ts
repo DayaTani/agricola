@@ -1,5 +1,5 @@
-import CreateFarmerDto from '../types/create-farmer.dto'
 import Farmer from '../types/farmer'
+import FarmerDto from '../types/farmer.dto'
 import UpdateFarmerResult from '../types/update-farmer-result'
 import getFarmer from './get-farmer.service'
 import validate from './validate.service'
@@ -20,7 +20,7 @@ const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): U
   }
 
   /** The validated farmer data from the request body. */
-  const farmerDto: CreateFarmerDto | false = validate(requestBody, farmers)
+  const farmerDto: FarmerDto | false = validate(requestBody, farmers)
   if (farmerDto === false) {
     return UpdateFarmerResult.Invalid
   }
