@@ -20,7 +20,7 @@ const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): U
   }
 
   /** The validated farmer data from the request body. */
-  const farmerDto: FarmerDto | false = validate(requestBody, farmers)
+  const farmerDto: FarmerDto | false = validate(requestBody, farmers, farmer.id)
   if (farmerDto === false) {
     return UpdateFarmerResult.Invalid
   }

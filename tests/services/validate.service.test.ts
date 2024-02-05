@@ -12,12 +12,29 @@ describe('validate function', () => {
   ]
 
   test.each([
-    { name: 'James Stewart', idCardNumber: '0123456789', birthDate: '1908-05-20' },
+    // Valid inputs
+    { name: 'Jane Russell', idCardNumber: '0123456789', birthDate: '1908-05-20' },
     { name: 'Miriam Hopkins', idCardNumber: '0345678901', birthDate: '1902-10-18' },
-    { name: 'Humphrey Bogart', idCardNumber: '0456789012', birthDate: '1899-12-25', extra: 'value' },
-  ])('should return a valid FarmerDto for valid input', requestBody => {
+    { name: 'Donna Reed', idCardNumber: '4567835435', birthDate: '1915-12-25', extra: 'value' },
+
+  ])('should return a valid FarmerDto for valid input for creation purpose', requestBody => {
     // Execute
-    const result = validate(requestBody, farmers)
+    const result = validate(requestBody, farmers, null)
+
+    // Assert
+    expect(result).toEqual<FarmerDto>({
+      name: requestBody.name,
+      idCardNumber: requestBody.idCardNumber,
+      birthDate: requestBody.birthDate,
+    })
+  })
+
+  test.each([
+    { requestBody: { name: 'Ingrid Bergman', idCardNumber: '4567890123', birthDate: '1915-08-30' }, farmerId: 4 },
+    { requestBody: { name: 'James Stewardess', idCardNumber: '5678901234', birthDate: '1908-05-20' }, farmerId: 5 },
+  ])('should return a valid FarmerDto for valid input for update purpose', ({ requestBody, farmerId }) => {
+    // Execute
+    const result = validate(requestBody, farmers, farmerId)
 
     // Assert
     expect(result).toEqual<FarmerDto>({
@@ -37,7 +54,7 @@ describe('validate function', () => {
     { name: 'Humphrey Bogart', idCardNumber: 123456789, birthDate: false },
   ])('should return false for invalid or missing fields', requestBody => {
     // Execute
-    const result = validate(requestBody, farmers)
+    const result = validate(requestBody, farmers, null)
 
     // Assert
     expect(result).toBe(false)
@@ -56,19 +73,45 @@ describe('validate function', () => {
     }
 
     // Execute
-    const result = validate(requestBody, farmers)
+    const result = validate(requestBody, farmers, null)
+
+    // Assert
+    expect(result).toBe(false)
+  })
+
+  test('should return false for future birth date', () => {
+    // Prepare
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(today.getDate() + 1)
+
+    const year = tomorrow.getFullYear()
+    const month = String(tomorrow.getMonth() + 1).padStart(2, '0')
+    const day = String(tomorrow.getDate()).padStart(2, '0')
+
+    const tomorrowBirthDate = `${year}-${month}-${day}`
+
+    // Prepare
+    const requestBody = {
+      name: 'Cary Grant',
+      idCardNumber: '1234567890',
+      birthDate: tomorrowBirthDate,
+    }
+
+    // Execute
+    const result = validate(requestBody, farmers, null)
 
     // Assert
     expect(result).toBe(false)
   })
 
   test.each([
-    '1234567890',
-    '2345678901',
-    '3456789012',
-    '4567890123',
-    '5678901234',
-  ])('should return false for existing ID card number', idCardNumber => {
+    { idCardNumber: '1234567890', farmerId: null },
+    { idCardNumber: '2345678901', farmerId: 1 },
+    { idCardNumber: '3456789012', farmerId: 2 },
+    { idCardNumber: '4567890123', farmerId: null },
+    { idCardNumber: '5678901234', farmerId: null },
+  ])('should return false for existing ID card number of another farmer', ({ idCardNumber, farmerId }) => {
     // Prepare
     const requestBody = {
       name: 'Shirley MacLaine',
@@ -77,7 +120,7 @@ describe('validate function', () => {
     }
 
     // Execute
-    const result = validate(requestBody, farmers)
+    const result = validate(requestBody, farmers, farmerId)
 
     // Assert
     expect(result).toBe(false)

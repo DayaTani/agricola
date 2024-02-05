@@ -41,7 +41,7 @@ describe('createFarmer', () => {
     expect(farmers).toHaveLength(2)
     expect(farmers[arrayIndexAfterInsertion]).toStrictEqual({ ...validDto, id: 4 })
 
-    expect(validateSpy).toHaveBeenCalledWith(validDto, farmers)
+    expect(validateSpy).toHaveBeenCalledWith(validDto, farmers, null)
   })
 
   it('should return a failure result when validation fails', () => {
@@ -56,7 +56,7 @@ describe('createFarmer', () => {
 
     // Assert
     expect(result).toEqual({ success: false })
-    expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers)
+    expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers, null)
     expect(farmers).toHaveLength(1)
   })
 })

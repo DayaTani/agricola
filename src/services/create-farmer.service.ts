@@ -13,7 +13,7 @@ import validate from './validate.service'
  */
 const createFarmer = (requestBody: unknown, farmers: Farmer[], nextFarmerId: number): CreateFarmerResult => {
   /** The farmer data obtained from the request body after validation. */
-  const farmerDto = validate(requestBody, farmers)
+  const farmerDto = validate(requestBody, farmers, null)
   if (farmerDto === false) {
     return { success: false }
   }

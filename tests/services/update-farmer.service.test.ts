@@ -47,7 +47,7 @@ describe('updateFarmer', () => {
       { id: 8, name: 'Kate Beckinsale', idCardNumber: '8901234567', birthDate: '1973-07-26' },
     ])
 
-    expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers)
+    expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers, 9)
   })
 
   it('should return NotFound when farmer is not found', () => {
@@ -79,6 +79,6 @@ describe('updateFarmer', () => {
     expect(result).toBe(UpdateFarmerResult.Invalid)
     expect(farmers).toEqual(originalFarmers)
 
-    expect(validateSpy).toHaveBeenCalledWith(requestBody, originalFarmers)
+    expect(validateSpy).toHaveBeenCalledWith(requestBody, originalFarmers, 10)
   })
 })
