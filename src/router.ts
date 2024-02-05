@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import basicAuth from './basic-auth'
+import basicAuth from './middlewares/basic-auth'
 import create from './controllers/farmer/create.controller'
 import destroy from './controllers/farmer/destroy.controller'
 import index from './controllers/farmer/index.controller'
