@@ -1,6 +1,12 @@
-import Farmer from './farmer'
+/** Represents a DTO to create or replace Farmer entity. */
+export default interface FarmerDto {
+  /** The name of the farmer. */
+  name: string
 
-/** Represents a DTO to create/replace Farmer entity. */
-type FarmerDto = Omit<Farmer, 'id'>
+  /** The identification card number of the farmer. */
+  idCardNumber: string
 
-export default FarmerDto
+  /** The birthdate of the farmer in the format YYYY-MM-DD. */
+  birthDate: string
+}
+

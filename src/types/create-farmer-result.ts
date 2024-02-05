@@ -2,6 +2,7 @@
 type CreateFarmerResult = {
   /** Indicates whether the creation was successful. */
   success: true
+
   /** The ID of the next created farmer, applicable if `success` is `true`. */
   nextFarmerId: number
 } | {
