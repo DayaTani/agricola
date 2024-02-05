@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import basicAuth from './basic-auth'
 import create from './controllers/farmer/create.controller'
 import destroy from './controllers/farmer/destroy.controller'
 import index from './controllers/farmer/index.controller'
@@ -9,9 +10,9 @@ import update from './controllers/farmer/update.controller'
 const router = Router()
 
 router.get('/', index)
-router.post('/', create)
+router.post('/', basicAuth, create)
 router.get('/:id', show)
-router.put('/:id', update)
-router.delete('/:id', destroy)
+router.put('/:id', basicAuth, update)
+router.delete('/:id', basicAuth, destroy)
 
 export default router
