@@ -50,7 +50,7 @@ describe('validate function', () => {
   ])('should return false for semantically invalid birth date', birthDate => {
     // Prepare
     const requestBody = {
-      name: 'Jane Doe',
+      name: 'Ingrid Bergman',
       idCardNumber: '1234567890',
       birthDate,
     }
@@ -71,9 +71,9 @@ describe('validate function', () => {
   ])('should return false for existing ID card number', idCardNumber => {
     // Prepare
     const requestBody = {
-      name: 'Jane Doe',
+      name: 'Shirley MacLaine',
       idCardNumber,
-      birthDate: '1915-01-34',
+      birthDate: '1915-01-31',
     }
 
     // Execute
