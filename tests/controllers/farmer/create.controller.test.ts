@@ -6,6 +6,7 @@ import database from '../../../src/database'
 describe('create', () => {
   let mockRequest: Partial<Request>
   let mockResponse: Partial<Response>
+  let createFarmerSpy: jest.SpyInstance
 
   beforeEach(() => {
     mockRequest = {
@@ -15,11 +16,15 @@ describe('create', () => {
       status: jest.fn().mockReturnThis(),
       send: jest.fn(),
     }
+    createFarmerSpy = jest.spyOn(createFarmerService, 'default')
+  })
+
+  afterEach(() => {
+    createFarmerSpy.mockRestore()
   })
 
   it('creates a new farmer and returns a 201 response', () => {
     // Prepare
-    const createFarmerSpy = jest.spyOn(createFarmerService, 'default')
     createFarmerSpy.mockReturnValue({ success: true, nextFarmerId: 124 })
 
     const originalNextFarmerId = database.nextFarmerId
@@ -37,12 +42,10 @@ describe('create', () => {
 
     // Cleanup
     database.nextFarmerId = originalNextFarmerId
-    createFarmerSpy.mockRestore()
   })
 
   it('handles a failed farmer creation and returns a 400 response', () => {
     // Prepare
-    const createFarmerSpy = jest.spyOn(createFarmerService, 'default')
     createFarmerSpy.mockReturnValue({ success: false })
 
     const originalNextFarmerId = database.nextFarmerId

@@ -4,16 +4,6 @@ import database from '../../../src/database'
 import index from '../../../src/controllers/farmer/index.controller'
 
 describe('index', () => {
-  let mockRequest: Partial<Request>
-  let mockResponse: Partial<Response>
-
-  beforeEach(() => {
-    mockRequest = {
-      params: { skip: '100', limit: '10' },
-    }
-    mockResponse = { json: jest.fn() }
-  })
-
   it('responds with a JSON list of farmers', () => {
     // Preparee
     const farmers = [
@@ -23,6 +13,11 @@ describe('index', () => {
     ]
     const listFarmersSpy = jest.spyOn(listFarmersService, 'default')
     listFarmersSpy.mockReturnValue(farmers)
+
+    const mockRequest: Partial<Request> = {
+      params: { skip: '100', limit: '10' },
+    }
+    const mockResponse: Partial<Response> = { json: jest.fn() }
 
     // Execute
     index(mockRequest as Request, mockResponse as Response)
