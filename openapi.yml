@@ -10,7 +10,7 @@ paths:
       summary: Get a list of all farmers.
       parameters:
         - in: query
-          name: skip
+          name: offset
           schema:
             type: integer
             minimum: 0
