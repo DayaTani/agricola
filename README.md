@@ -75,6 +75,10 @@ Replace 8080 with the port number you prefer.
 
 Once you've executed the command with the correct password and, if needed, an alternative port, the server will be launched and it will be ready to respond to incoming HTTP requests.
 
+### Testing 500 Internal Server Error Response
+
+For testing purposes, the server is designed to return a 500 internal server error when creating a farmer with the name `segmentation-fault`. This feature is specifically designed for testing error handling in your application.
+
 ## Documentation
 
 We provide a comprehensive OpenAPI specification of the API, which details the expected request body and parameters, response statuses and bodies, as well as the authentication mechanism.
