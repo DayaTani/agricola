@@ -38,6 +38,8 @@ paths:
                     description: List of farmers managed by the application.
                     items:
                       $ref: '#/components/schemas/Farmer'
+        '500':
+          description: Internal server error.
     post:
       summary: Create a new farmer.
       security:
@@ -55,7 +57,8 @@ paths:
           description: Bad request.
         '401':
           description: Unauthorized. Basic Authentication required.
-
+        '500':
+          description: Internal server error.
   /farmers/{id}:
     get:
       summary: Get information about a specific farmer.
@@ -75,7 +78,8 @@ paths:
                 $ref: '#/components/schemas/Farmer'
         '404':
           description: Farmer not found.
-
+        '500':
+          description: Internal server error.
     put:
       summary: Update information about a specific farmer.
       security:
@@ -102,7 +106,8 @@ paths:
           description: Unauthorized. Basic Authentication required.
         '404':
           description: Farmer not found.
-
+        '500':
+          description: Internal server error.
     delete:
       summary: Delete a specific farmer.
       security:
@@ -121,7 +126,8 @@ paths:
           description: Unauthorized. Basic Authentication required.
         '404':
           description: Farmer not found.
-
+        '500':
+          description: Internal server error.
 components:
   securitySchemes:
     basicAuth:
