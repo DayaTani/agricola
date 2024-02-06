@@ -17,6 +17,7 @@ export const BACKDOOR_ERROR_NAME = 'segmentation-fault'
  * @param requestBody - The request body containing farmer information.
  * @param farmers - An array of existing farmers.
  * @param nextFarmerId - The ID to be assigned to the new farmer.
+ * @throws {BackdoorError} Throws an error if the backdoor error condition is met.
  * @returns Returns a result object indicating the outcome of the operation.
  */
 const createFarmer = (requestBody: unknown, farmers: Farmer[], nextFarmerId: number): CreateFarmerResult => {
