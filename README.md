@@ -77,7 +77,7 @@ Once you've executed the command with the correct password and, if needed, an al
 
 ### Testing 500 Internal Server Error Response
 
-For testing purposes, the server is designed to return a 500 internal server error when creating a farmer with the name `segmentation-fault`. This feature is specifically designed for testing error handling in your application.
+For testing purposes, the server is designed to return a response with a status code of 500 when creating a farmer with the name `segmentation-fault`. This feature is specifically designed for testing error handling in your application.
 
 ## Documentation
 
