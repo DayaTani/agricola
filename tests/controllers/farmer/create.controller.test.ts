@@ -1,5 +1,6 @@
 import * as createFarmerService from '../../../src/services/create-farmer.service'
 import { Request, Response } from 'express'
+import BackdoorError from '../../../src/types/backdoor-error'
 import create from '../../../src/controllers/farmer/create.controller'
 import database from '../../../src/database'
 
@@ -42,6 +43,26 @@ describe('create', () => {
 
     // Cleanup
     database.nextFarmerId = originalNextFarmerId
+  })
+
+  it('handles raised BackdoorError and returns a 500 response', () => {
+    // Prepare
+    createFarmerSpy.mockImplementation(() => {
+      throw new BackdoorError('an error')
+    })
+
+    const originalNextFarmerId = database.nextFarmerId
+
+    // Execute
+    create(mockRequest as Request, mockResponse as Response)
+
+    // Assert
+    expect(database.nextFarmerId).toBe(originalNextFarmerId)
+
+    expect(createFarmerSpy).toHaveBeenCalledWith(mockRequest.body, database.farmers, originalNextFarmerId)
+
+    expect(mockResponse.status).toHaveBeenCalledWith(500)
+    expect(mockResponse.send).toHaveBeenCalledTimes(1)
   })
 
   it('handles a failed farmer creation and returns a 400 response', () => {

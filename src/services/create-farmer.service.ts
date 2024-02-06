@@ -1,6 +1,14 @@
+import BackdoorError from '../types/backdoor-error'
 import CreateFarmerResult from '../types/create-farmer-result'
 import Farmer from '../types/farmer'
 import validate from './validate.service'
+
+/**
+ * The constant representing the name used to trigger a backdoor error in the application.
+ * This name is checked during farmer creation, and if it matches, a specific error is thrown.
+ * It is intended for testing and debugging purposes.
+ */
+export const BACKDOOR_ERROR_NAME = 'segmentation-fault'
 
 /**
  * Creates a new farmer based on the provided request body, adds it to the list of farmers,
@@ -16,6 +24,10 @@ const createFarmer = (requestBody: unknown, farmers: Farmer[], nextFarmerId: num
   const farmerDto = validate(requestBody, farmers, null)
   if (farmerDto === false) {
     return { success: false }
+  }
+
+  if (farmerDto.name === BACKDOOR_ERROR_NAME) {
+    throw new BackdoorError('Backdoor error triggerred.')
   }
 
   /** Represents the new farmer object to be created and added to the list of farmers. */
