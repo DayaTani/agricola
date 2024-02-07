@@ -13,7 +13,7 @@ Mock HTTP server designed to assist frontend and mobile engineer candidates with
 
 Before you can use this mock HTTP server, ensure you have the following software installed on your system:
 
-- **Node.js**: This project requires Node.js. We recommend using [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm) to manage your Node.js installations. You can follow these steps to install Node.js with NVM:
+- **Node.js**: This project requires Node.js version 20 or higher. We recommend using [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm) to manage your Node.js installations. You can follow these steps to install Node.js with NVM:
 
   1. Install NVM by following the instructions on the [NVM GitHub repository](https://github.com/nvm-sh/nvm#installing-and-updating).
 
@@ -57,13 +57,13 @@ A successful test run with all green results not only indicates that the install
 
 ## Usage
 
-To start the mock HTTP server, along with the specifying the Basic authentication password, use the following command within your project directory:
+To start the mock HTTP server, along with specifying the Basic authentication password, use the following command within your project directory:
 
 ```bash
 PASSWORD=examplepassword yarn start
 ```
 
-Ensure that you replace `examplepassword` with your desired password. This command is necessary to set the required password and start the server simultaneously.
+Make sure to replace `examplepassword` with your desired password. This command sets the required password via the `PASSWORD` environment variable and starts the server simultaneously.
 
 By default, the server will be running on port 3000. If you want to specify an alternative port for the server, you can use the PORT environment variable. Here's an example of how to do so:
 
@@ -74,6 +74,10 @@ PASSWORD=examplepassword PORT=8080 yarn start
 Replace 8080 with the port number you prefer.
 
 Once you've executed the command with the correct password and, if needed, an alternative port, the server will be launched and it will be ready to respond to incoming HTTP requests.
+
+### Basic Authentication Credentials
+
+Certain endpoints utilize the Basic authentication scheme to authenticate clients. The accepted username is `dayatani`. As mentioned earlier, the password is specified by the `PASSWORD` environment variable, which you can set when starting the mock server.
 
 ### Testing 500 Internal Server Error Response
 
