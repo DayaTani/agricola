@@ -1,9 +1,8 @@
 import * as updateFarmerService from '../../../src/services/update-farmer.service'
+import { InvalidRequestError, ResourceNotFoundError, UniqueConstraintViolationError } from '../../../src/types/errors'
 import { Request, Response } from 'express'
-import UpdateFarmerResult from '../../../src/types/update-farmer-result'
 import database from '../../../src/database'
 import update from '../../../src/controllers/farmer/update.controller'
-import updateFarmer from '../../../src/services/update-farmer.service'
 
 describe('update', () => {
   let mockRequest: Partial<Request>
@@ -28,7 +27,7 @@ describe('update', () => {
 
   it('responds with a 200 OK status for a successful update', () => {
     // Prepare
-    updateFarmerSpy.mockReturnValue(UpdateFarmerResult.Success)
+    updateFarmerSpy.mockReturnValue(undefined)
 
     // Execute
     update(mockRequest as Request, mockResponse as Response)
@@ -39,29 +38,22 @@ describe('update', () => {
     expect(mockResponse.send).toHaveBeenCalledTimes(1)
   })
 
-  it('responds with a 404 status if farmer is not found', () => {
+  it.each([
+    [new ResourceNotFoundError('not found.'), 404],
+    [new InvalidRequestError('missing field'), 400],
+    [new UniqueConstraintViolationError('ID already exists.'), 409],
+  ])('handles raised Errors and returns an appropriate response', (error, statusCode) => {
     // Prepare
-    updateFarmerSpy.mockReturnValue(UpdateFarmerResult.NotFound)
+    updateFarmerSpy.mockImplementation(() => {
+      throw error
+    })
 
     // Execute
     update(mockRequest as Request, mockResponse as Response)
 
     // Assert
     expect(updateFarmerSpy).toHaveBeenCalledWith(mockRequest.body, database.farmers, '321')
-    expect(mockResponse.status).toHaveBeenCalledWith(404)
-    expect(mockResponse.send).toHaveBeenCalledTimes(1)
-  })
-
-  it('responds with a 400 status for an invalid update', () => {
-    // Prepare
-    updateFarmerSpy.mockReturnValue(UpdateFarmerResult.Invalid)
-
-    // Execute
-    update(mockRequest as Request, mockResponse as Response)
-
-    // Assert
-    expect(updateFarmer).toHaveBeenCalledWith(mockRequest.body, database.farmers, '321')
-    expect(mockResponse.status).toHaveBeenCalledWith(400)
+    expect(mockResponse.status).toHaveBeenCalledWith(statusCode)
     expect(mockResponse.send).toHaveBeenCalledTimes(1)
   })
 })

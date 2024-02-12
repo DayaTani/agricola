@@ -1,6 +1,5 @@
 import Farmer from '../types/farmer'
-import FarmerDto from '../types/farmer.dto'
-import UpdateFarmerResult from '../types/update-farmer-result'
+import { ResourceNotFoundError } from '../types/errors'
 import getFarmer from './get-farmer.service'
 import validate from './validate.service'
 
@@ -10,20 +9,19 @@ import validate from './validate.service'
  * @param requestBody - The request body containing updated farmer information.
  * @param farmers - An array of Farmer objects.
  * @param rawId - The raw ID used to identify the farmer to update.
- * @returns The result of the update operation.
+ * @throws {ResourceNotFoundError} Throws an error if the farmer to update is not found.
+ * @throws {InvalidRequestError} Throws an error if the request body is invalid.
+ * @throws {UniqueConstraintViolationError} Throws an error if there is a uniqueness violation.
  */
-const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): UpdateFarmerResult => {
+const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): void => {
   /** The farmer object to be updated. */
   const farmer: Farmer | null = getFarmer(farmers, rawId)
   if (farmer === null) {
-    return UpdateFarmerResult.NotFound
+    throw new ResourceNotFoundError(`Farmer with ID ${rawId} is not found.`)
   }
 
   /** The validated farmer data from the request body. */
-  const farmerDto: FarmerDto | false = validate(requestBody, farmers, farmer.id)
-  if (farmerDto === false) {
-    return UpdateFarmerResult.Invalid
-  }
+  const farmerDto = validate(requestBody, farmers, farmer.id)
 
   /** The original name of the farmer before any updates are applied. */
   const originalName = farmer.name
@@ -35,8 +33,6 @@ const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): U
   if (originalName !== farmer.name) {
     farmers.sort((a, b) => (a.name < b.name ? -1 : 1))
   }
-
-  return UpdateFarmerResult.Success
 }
 
 export default updateFarmer

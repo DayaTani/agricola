@@ -1,6 +1,6 @@
 import * as createFarmerService from '../../../src/services/create-farmer.service'
+import { BackdoorError, InvalidRequestError, UniqueConstraintViolationError } from '../../../src/types/errors'
 import { Request, Response } from 'express'
-import BackdoorError from '../../../src/types/backdoor-error'
 import create from '../../../src/controllers/farmer/create.controller'
 import database from '../../../src/database'
 
@@ -26,7 +26,7 @@ describe('create', () => {
 
   it('creates a new farmer and returns a 201 response', () => {
     // Prepare
-    createFarmerSpy.mockReturnValue({ success: true, nextFarmerId: 124 })
+    createFarmerSpy.mockReturnValue(undefined)
 
     const originalNextFarmerId = database.nextFarmerId
 
@@ -34,7 +34,7 @@ describe('create', () => {
     create(mockRequest as Request, mockResponse as Response)
 
     // Assert
-    expect(database.nextFarmerId).toBe(124)
+    expect(database.nextFarmerId).toBe(originalNextFarmerId + 1)
 
     expect(createFarmerSpy).toHaveBeenCalledWith(mockRequest.body, database.farmers, originalNextFarmerId)
 
@@ -45,10 +45,14 @@ describe('create', () => {
     database.nextFarmerId = originalNextFarmerId
   })
 
-  it('handles raised BackdoorError and returns a 500 response', () => {
+  it.each([
+    [new InvalidRequestError('missing field'), 400],
+    [new UniqueConstraintViolationError('ID already exists.'), 409],
+    [new BackdoorError('an error'), 500],
+  ])('handles raised Errors and returns an appropriate response', (error, statusCode) => {
     // Prepare
     createFarmerSpy.mockImplementation(() => {
-      throw new BackdoorError('an error')
+      throw error
     })
 
     const originalNextFarmerId = database.nextFarmerId
@@ -61,25 +65,7 @@ describe('create', () => {
 
     expect(createFarmerSpy).toHaveBeenCalledWith(mockRequest.body, database.farmers, originalNextFarmerId)
 
-    expect(mockResponse.status).toHaveBeenCalledWith(500)
-    expect(mockResponse.send).toHaveBeenCalledTimes(1)
-  })
-
-  it('handles a failed farmer creation and returns a 400 response', () => {
-    // Prepare
-    createFarmerSpy.mockReturnValue({ success: false })
-
-    const originalNextFarmerId = database.nextFarmerId
-
-    // Execute
-    create(mockRequest as Request, mockResponse as Response)
-
-    // Assert
-    expect(database.nextFarmerId).toBe(originalNextFarmerId)
-
-    expect(createFarmerSpy).toHaveBeenCalledWith(mockRequest.body, database.farmers, originalNextFarmerId)
-
-    expect(mockResponse.status).toHaveBeenCalledWith(400)
+    expect(mockResponse.status).toHaveBeenCalledWith(statusCode)
     expect(mockResponse.send).toHaveBeenCalledTimes(1)
   })
 })

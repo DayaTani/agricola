@@ -1,6 +1,6 @@
 import * as validator from '../../src/services/validate.service'
 import createFarmer, { BACKDOOR_ERROR_NAME } from '../../src/services/create-farmer.service'
-import BackdoorError from '../../src/types/backdoor-error'
+import { BackdoorError } from '../../src/types/errors'
 import Farmer from '../../src/types/farmer'
 import FarmerDto from '../../src/types/farmer.dto'
 
@@ -30,35 +30,14 @@ describe('createFarmer', () => {
 
     const farmers: Farmer[] = [sampleFarmer]
 
-    // Execute
-    const result = createFarmer(validDto, farmers, 4)
+    // Execute & assert
+    expect(() => createFarmer(validDto, farmers, 4)).not.toThrow()
 
     // Assert
-    expect(result).toStrictEqual({
-      success: true,
-      nextFarmerId: 5,
-    })
-
     expect(farmers).toHaveLength(2)
     expect(farmers[arrayIndexAfterInsertion]).toStrictEqual({ ...validDto, id: 4 })
 
     expect(validateSpy).toHaveBeenCalledWith(validDto, farmers, null)
-  })
-
-  it('should return a failure result when validation fails', () => {
-    // Prepare
-    validateSpy.mockReturnValue(false)
-
-    const requestBody = { key: 'value' }
-    const farmers: Farmer[] = [sampleFarmer]
-
-    // Execute
-    const result = createFarmer(requestBody, farmers, 123)
-
-    // Assert
-    expect(result).toEqual({ success: false })
-    expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers, null)
-    expect(farmers).toHaveLength(1)
   })
 
   it('should throw error if farmer name is backdoor error name', () => {

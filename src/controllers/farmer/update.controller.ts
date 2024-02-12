@@ -1,5 +1,5 @@
+import { InvalidRequestError, ResourceNotFoundError, UniqueConstraintViolationError } from '../../types/errors'
 import { Request, Response } from 'express'
-import UpdateFarmerResult from '../../types/update-farmer-result'
 import database from '../../database'
 import updateFarmer from '../../services/update-farmer.service'
 
@@ -10,17 +10,23 @@ import updateFarmer from '../../services/update-farmer.service'
  * @param response - The HTTP response object.
  */
 const update = (request: Request, response: Response): void => {
-  /** The result of attempting to update a specific farmer. */
-  const result = updateFarmer(request.body, database.farmers, request.params.id)
+  try {
+    updateFarmer(request.body, database.farmers, request.params.id)
+  } catch (error: unknown) {
+    if (error instanceof ResourceNotFoundError) {
+      response.status(404).send()
+      return
+    }
 
-  if (result === UpdateFarmerResult.NotFound) {
-    response.status(404).send()
-    return
-  }
+    if (error instanceof InvalidRequestError) {
+      response.status(400).send()
+      return
+    }
 
-  if (result === UpdateFarmerResult.Invalid) {
-    response.status(400).send()
-    return
+    if (error instanceof UniqueConstraintViolationError) {
+      response.status(409).send()
+      return
+    }
   }
 
   response.status(200).send()

@@ -1,6 +1,6 @@
 import * as validator from '../../src/services/validate.service'
 import Farmer from '../../src/types/farmer'
-import UpdateFarmerResult from '../../src/types/update-farmer-result'
+import { ResourceNotFoundError } from '../../src/types/errors'
 import updateFarmer from '../../src/services/update-farmer.service'
 
 describe('updateFarmer', () => {
@@ -34,11 +34,9 @@ describe('updateFarmer', () => {
     validateSpy.mockReturnValue(requestBody)
 
     // Execute
-    const result = updateFarmer(requestBody, farmers, farmerId)
+    expect(() => updateFarmer(requestBody, farmers, farmerId)).not.toThrow()
 
     // Assert
-    expect(result).toBe(UpdateFarmerResult.Success)
-
     expect(farmers).toEqual([
       { id: 1, name: 'Audrey Tautou', idCardNumber: '1234567890', birthDate: '1976-08-09' },
       { id: 10, name: 'Cate Blanchett', idCardNumber: '2345678923', birthDate: '1969-05-14' },
@@ -50,35 +48,16 @@ describe('updateFarmer', () => {
     expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers, 9)
   })
 
-  it('should return NotFound when farmer is not found', () => {
+  it('should throw ResourceNotFound when farmer is not found', () => {
     // Prepare
     const farmerId = '123'
     const requestBody = { name: 'Updated John', idCardNumber: '67890', birthDate: '1995-05-05' }
 
-    // Execute
-    const result = updateFarmer(requestBody, farmers, farmerId)
+    // Execute & assert
+    expect(() => updateFarmer(requestBody, farmers, farmerId)).toThrow(ResourceNotFoundError)
 
-    // Assert
-    expect(result).toBe(UpdateFarmerResult.NotFound)
     expect(farmers).toEqual(originalFarmers)
 
     expect(validateSpy).not.toHaveBeenCalled()
-  })
-
-  it('should return Invalid when validation fails', () => {
-    // Prepare
-    const farmerId = '10'
-    const requestBody = { invalidField: 'Invalid Data' }
-
-    validateSpy.mockReturnValue(false)
-
-    // Execute
-    const result = updateFarmer(requestBody, farmers, farmerId)
-
-    // Assert
-    expect(result).toBe(UpdateFarmerResult.Invalid)
-    expect(farmers).toEqual(originalFarmers)
-
-    expect(validateSpy).toHaveBeenCalledWith(requestBody, originalFarmers, 10)
   })
 })

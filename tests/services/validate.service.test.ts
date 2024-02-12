@@ -1,3 +1,4 @@
+import { InvalidRequestError, UniqueConstraintViolationError } from '../../src/types/errors'
 import Farmer from '../../src/types/farmer'
 import FarmerDto from '../../src/types/farmer.dto'
 import validate from '../../src/services/validate.service'
@@ -19,10 +20,10 @@ describe('validate function', () => {
 
   ])('should return a valid FarmerDto for valid input for creation purpose', requestBody => {
     // Execute
-    const result = validate(requestBody, farmers, null)
+    const farmerDto = validate(requestBody, farmers, null)
 
     // Assert
-    expect(result).toEqual<FarmerDto>({
+    expect(farmerDto).toEqual<FarmerDto>({
       name: requestBody.name,
       idCardNumber: requestBody.idCardNumber,
       birthDate: requestBody.birthDate,
@@ -34,10 +35,10 @@ describe('validate function', () => {
     { requestBody: { name: 'James Stewardess', idCardNumber: '5678901234', birthDate: '1908-05-20' }, farmerId: 5 },
   ])('should return a valid FarmerDto for valid input for update purpose', ({ requestBody, farmerId }) => {
     // Execute
-    const result = validate(requestBody, farmers, farmerId)
+    const farmerDto = validate(requestBody, farmers, farmerId)
 
     // Assert
-    expect(result).toEqual<FarmerDto>({
+    expect(farmerDto).toEqual<FarmerDto>({
       name: requestBody.name,
       idCardNumber: requestBody.idCardNumber,
       birthDate: requestBody.birthDate,
@@ -52,12 +53,9 @@ describe('validate function', () => {
     { name: 'Humphrey Bogart', idCardNumber: 123456789, birthDate: '1908-05-20' },
     { name: 'Humphrey Bogart', idCardNumber: '123456789', birthDate: '1908-1-20' },
     { name: 'Humphrey Bogart', idCardNumber: 123456789, birthDate: false },
-  ])('should return false for invalid or missing fields', requestBody => {
-    // Execute
-    const result = validate(requestBody, farmers, null)
-
-    // Assert
-    expect(result).toBe(false)
+  ])('should throw InvalidRequestError for invalid or missing fields', requestBody => {
+    // Execute & assert
+    expect(() => validate(requestBody, farmers, null)).toThrow(InvalidRequestError)
   })
 
   test.each([
@@ -72,11 +70,8 @@ describe('validate function', () => {
       birthDate,
     }
 
-    // Execute
-    const result = validate(requestBody, farmers, null)
-
-    // Assert
-    expect(result).toBe(false)
+    // Execute & assert
+    expect(() => validate(requestBody, farmers, null)).toThrow(InvalidRequestError)
   })
 
   test('should return false for future birth date', () => {
@@ -98,11 +93,8 @@ describe('validate function', () => {
       birthDate: tomorrowBirthDate,
     }
 
-    // Execute
-    const result = validate(requestBody, farmers, null)
-
-    // Assert
-    expect(result).toBe(false)
+    // Execute & assert
+    expect(() => validate(requestBody, farmers, null)).toThrow(InvalidRequestError)
   })
 
   test.each([
@@ -119,10 +111,7 @@ describe('validate function', () => {
       birthDate: '1915-01-31',
     }
 
-    // Execute
-    const result = validate(requestBody, farmers, farmerId)
-
-    // Assert
-    expect(result).toBe(false)
+    // Execute & assert
+    expect(() => validate(requestBody, farmers, farmerId)).toThrow(UniqueConstraintViolationError)
   })
 })
