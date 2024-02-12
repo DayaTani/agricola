@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { ResourceNotFoundError } from '../../types/errors'
 import database from '../../database'
 import deleteFarmer from '../../services/delete-farmer.service'
 
@@ -9,12 +10,16 @@ import deleteFarmer from '../../services/delete-farmer.service'
  * @param response - The HTTP response object.
  */
 const destroy = (request: Request, response: Response): void => {
-  /** Indicates whether the deletion of the farmer was successful or not. */
-  const deleted = deleteFarmer(database.farmers, request.params.id)
+  try {
+    deleteFarmer(database.farmers, request.params.id)
+  } catch (error: unknown) {
+    if (error instanceof ResourceNotFoundError) {
+      response.status(404).send()
+      return
+    }
 
-  if (deleted === false) {
-    response.status(404).send()
-    return
+    /* istanbul ignore next */
+    throw error
   }
 
   response.status(200).send()

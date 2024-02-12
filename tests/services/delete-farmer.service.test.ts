@@ -1,4 +1,5 @@
 import Farmer from '../../src/types/farmer'
+import { ResourceNotFoundError } from '../../src/types/errors'
 import deleteFarmer from '../../src/services/delete-farmer.service'
 
 describe('deleteFarmer', () => {
@@ -16,10 +17,9 @@ describe('deleteFarmer', () => {
 
   it('should delete a farmer by ID and return true', () => {
     // Execute
-    const result = deleteFarmer(farmers, '2')
+    expect(() => deleteFarmer(farmers, '2')).not.toThrow()
 
     // Assert
-    expect(result).toBe(true)
     expect(farmers).toEqual([
       { id: 1, name: 'Audrey Tautou', idCardNumber: '1234567890', birthDate: '1976-08-09' },
       { id: 10, name: 'Cate Blanchett', idCardNumber: '2345678923', birthDate: '1969-05-14' },
@@ -32,13 +32,11 @@ describe('deleteFarmer', () => {
     '4',
     'invalidId',
     '-12',
-  ])('should return false for invalid or non-existent IDs', id => {
+  ])('should throw ResourceNotFound for invalid or non-existent IDs', id => {
     // Execute
-    const result = deleteFarmer(farmers, id)
+    expect(() => deleteFarmer(farmers, id)).toThrow(ResourceNotFoundError)
 
     // Assert
-    expect(result).toBe(false)
-
     expect(farmers).toEqual([
       { id: 1, name: 'Audrey Tautou', idCardNumber: '1234567890', birthDate: '1976-08-09' },
       { id: 10, name: 'Cate Blanchett', idCardNumber: '2345678923', birthDate: '1969-05-14' },
