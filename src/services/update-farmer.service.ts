@@ -1,5 +1,4 @@
 import Farmer from '../types/farmer'
-import { ResourceNotFoundError } from '../types/errors'
 import getFarmer from './get-farmer.service'
 import validate from './validate.service'
 
@@ -15,10 +14,7 @@ import validate from './validate.service'
  */
 const updateFarmer = (requestBody: unknown, farmers: Farmer[], rawId: string): void => {
   /** The farmer object to be updated. */
-  const farmer: Farmer | null = getFarmer(farmers, rawId)
-  if (farmer === null) {
-    throw new ResourceNotFoundError(`Farmer with ID ${rawId} is not found.`)
-  }
+  const farmer = getFarmer(farmers, rawId)
 
   /** The validated farmer data from the request body. */
   const farmerDto = validate(requestBody, farmers, farmer.id)

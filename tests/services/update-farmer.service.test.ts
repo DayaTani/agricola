@@ -1,11 +1,9 @@
 import * as validator from '../../src/services/validate.service'
 import Farmer from '../../src/types/farmer'
-import { ResourceNotFoundError } from '../../src/types/errors'
 import updateFarmer from '../../src/services/update-farmer.service'
 
 describe('updateFarmer', () => {
   let farmers: Farmer[]
-  let originalFarmers: Farmer[]
   let validateSpy: jest.SpyInstance
 
   beforeEach(() => {
@@ -16,8 +14,6 @@ describe('updateFarmer', () => {
       { id: 8, name: 'Kate Beckinsale', idCardNumber: '8901234567', birthDate: '1973-07-26' },
       { id: 9, name: 'Russell Crowe', idCardNumber: '9012345678', birthDate: '1964-04-07' },
     ]
-
-    originalFarmers = JSON.parse(JSON.stringify(farmers))
 
     validateSpy = jest.spyOn(validator, 'default')
   })
@@ -46,18 +42,5 @@ describe('updateFarmer', () => {
     ])
 
     expect(validateSpy).toHaveBeenCalledWith(requestBody, farmers, 9)
-  })
-
-  it('should throw ResourceNotFound when farmer is not found', () => {
-    // Prepare
-    const farmerId = '123'
-    const requestBody = { name: 'Updated John', idCardNumber: '67890', birthDate: '1995-05-05' }
-
-    // Execute & assert
-    expect(() => updateFarmer(requestBody, farmers, farmerId)).toThrow(ResourceNotFoundError)
-
-    expect(farmers).toEqual(originalFarmers)
-
-    expect(validateSpy).not.toHaveBeenCalled()
   })
 })

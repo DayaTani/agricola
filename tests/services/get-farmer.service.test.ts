@@ -1,4 +1,5 @@
 import Farmer from '../../src/types/farmer'
+import { ResourceNotFoundError } from '../../src/types/errors'
 import getFarmer from '../../src/services/get-farmer.service'
 
 describe('getFarmer', () => {
@@ -23,11 +24,8 @@ describe('getFarmer', () => {
     '4',
     'invalidId',
     '-1',
-  ])('should return null for invalid or non-existent IDs', id => {
-    // Execute
-    const result = getFarmer(farmers, id)
-
-    // Assert
-    expect(result).toBeNull()
+  ])('should raise ResourceNotFoundError for invalid or non-existent IDs', id => {
+    // Execute & assert
+    expect(() => getFarmer(farmers, id)).toThrow(ResourceNotFoundError)
   })
 })

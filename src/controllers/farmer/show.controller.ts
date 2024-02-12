@@ -1,4 +1,6 @@
 import { Request, Response } from 'express'
+import Farmer from '../../types/farmer'
+import { ResourceNotFoundError } from '../../types/errors'
 import database from '../../database'
 import getFarmer from '../../services/get-farmer.service'
 
@@ -9,11 +11,19 @@ import getFarmer from '../../services/get-farmer.service'
  * @param response - The HTTP response object.
  */
 const show = (request: Request, response: Response): void => {
-  /** The farmer object containing information about a specific farmer if found, or null if not found. */
-  const farmer = getFarmer(database.farmers, request.params.id)
-  if (farmer === null) {
-    response.status(404).send()
-    return
+  /** The Farmer object containing information about a specific farmer. */
+  let farmer: Farmer
+
+  try {
+    farmer = getFarmer(database.farmers, request.params.id)
+  } catch (error: unknown) {
+    if (error instanceof ResourceNotFoundError) {
+      response.status(404).send()
+      return
+    }
+
+    /* istanbul ignore next */
+    throw error
   }
 
   response.json(farmer)

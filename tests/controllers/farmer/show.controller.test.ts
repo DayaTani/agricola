@@ -1,5 +1,6 @@
 import * as getFarmerService from '../../../src/services/get-farmer.service'
 import { Request, Response } from 'express'
+import { ResourceNotFoundError } from '../../../src/types/errors'
 import database from '../../../src/database'
 import show from '../../../src/controllers/farmer/show.controller'
 
@@ -38,9 +39,11 @@ describe('show', () => {
 
   })
 
-  it('responds with a 404 status if farmer is not found', () => {
+  it('responds with a 404 status if ResourceNotFoundError is raised', () => {
     // Prepare
-    getFarmerSpy.mockReturnValue(null)
+    getFarmerSpy.mockImplementation(() => {
+      throw new ResourceNotFoundError('Not Found.')
+    })
 
     // Execute
     show(mockRequest as Request, mockResponse as Response)
