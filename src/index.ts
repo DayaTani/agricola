@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from 'express'
 import logger from './middlewares/logger'
 import router from './router'
@@ -10,6 +11,7 @@ if (!process.env.PASSWORD) {
 /** Express application to manage farmer information. */
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 app.use(logger)
 
