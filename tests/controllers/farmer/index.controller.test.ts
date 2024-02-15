@@ -15,7 +15,7 @@ describe('index', () => {
     listFarmersSpy.mockReturnValue(farmers)
 
     const mockRequest: Partial<Request> = {
-      params: { skip: '100', limit: '10' },
+      query: { skip: '100', limit: '10' },
     }
     const mockResponse: Partial<Response> = { json: jest.fn() }
 
@@ -23,7 +23,7 @@ describe('index', () => {
     index(mockRequest as Request, mockResponse as Response)
 
     // Assert
-    expect(listFarmersSpy).toHaveBeenCalledWith(database.farmers, mockRequest.params)
+    expect(listFarmersSpy).toHaveBeenCalledWith(database.farmers, mockRequest.query)
     expect(mockResponse.json).toHaveBeenCalledWith({ farmers })
 
     // Cleanup

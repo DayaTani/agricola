@@ -1,24 +1,23 @@
 import Farmer from '../types/farmer'
-
+import QueryString from 'qs'
 /**
- * Retrieves a list of farmers based on specified parameters, including offset and limit.
- *
- * @param farmers - An array of Farmer objects representing the list of farmers.
- * @param paramsDictionary - A dictionary containing request parameters.
- * @returns An array of farmers based on the specified parameters.
+ * Retrieves a subset of farmers based on pagination parameters.
+ * @param farmers - The array of farmers to paginate.
+ * @param query - The query object containing pagination parameters.
+ * @returns The subset of farmers based on pagination parameters.
  */
-const listFarmers = (farmers: Farmer[], paramsDictionary: Record<string, string>): Farmer[] => {
+const listFarmers = (farmers: Farmer[], query: QueryString.ParsedQs): Farmer[] => {
   /** The offset value used for pagination. */
   let offset: number
 
   /** The maximum number of items to retrieve. */
   let limit: number
 
-  /** The parsed offset value obtained from `paramsDictionary`. */
-  const parsedOffset = parseInt(paramsDictionary['offset'])
+  /** The parsed offset value from the query parameters. */
+  const parsedOffset = parseInt(String(query.offset))
 
-  /** The parsed limit value obtained from `paramsDictionary`. */
-  const parsedLimit = parseInt(paramsDictionary['limit'])
+  /** The parsed limit value from the query parameters. */
+  const parsedLimit = parseInt(String(query.limit))
 
   if (!isNaN(parsedOffset) && parsedOffset >= 0) {
     offset = parsedOffset

@@ -10,7 +10,7 @@ import listFarmers from '../../services/list-farmers.service'
  */
 const index = (request: Request, response: Response): void => {
   /** An array of farmers matching the provided criteria. */
-  const farmers = listFarmers(database.farmers, request.params)
+  const farmers = listFarmers(database.farmers, request.query)
 
   response.json({ farmers })
 }

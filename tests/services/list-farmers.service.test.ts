@@ -26,13 +26,13 @@ describe('listFarmers', () => {
 
   it('should retrieve a list of farmers with valid parameters', () => {
     // Prepare
-    const paramsDictionary = {
+    const queryDictionary = {
       offset: '2',
       limit: '3',
     }
 
     // Execute
-    const result = listFarmers(farmers, paramsDictionary)
+    const result = listFarmers(farmers, queryDictionary)
 
     // Assert
     const expectedFarmers: Farmer[] = [
