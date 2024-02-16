@@ -9,7 +9,6 @@ describe('GET /farmers', () => {
 
     const expectedFarmers = database.farmers.slice(2, 5)
     expect(response.body.farmers).toStrictEqual(expectedFarmers)
-
   })
 
   it('should return a subset of farmers based on default pagination if no parameters specified', async () => {
