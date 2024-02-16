@@ -1,7 +1,7 @@
 import BasicAuth from 'express-basic-auth'
 
 /** The username for Basic Authentication. */
-const USERNAME = 'dayatani'
+export const USERNAME = 'dayatani'
 
 /** The realm used in the Basic Authentication challenge. */
 const REALM = 'agricola'
