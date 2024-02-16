@@ -1,21 +1,9 @@
-import cors from 'cors'
-import express from 'express'
-import logger from './middlewares/logger'
-import router from './router'
+import app from './app'
 
 if (!process.env.PASSWORD) {
   console.error('Authentication password must be set!')
   process.exit(1)
 }
-
-/** Express application to manage farmer information. */
-const app = express()
-
-app.use(cors())
-app.use(express.json())
-app.use(logger)
-
-app.use('/farmers', router)
 
 /** The port on which the server listens for incoming connections. */
 const PORT = process.env.PORT || 3000
