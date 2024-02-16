@@ -13,7 +13,6 @@ describe('GET /farmers/:id', () => {
       .expect(200)
 
     // Assert
-    expect(response.status).toBe(200)
     expect(response.body).toStrictEqual(farmer)
   })
 })
