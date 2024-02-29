@@ -11,6 +11,7 @@ import { findFarmer } from './find-farmer.service'
  * @returns The found Farmer object.
  */
 const getFarmer = (farmers: Farmer[], rawId: string): Farmer => {
+  /** The index of the farmer in the array if found, otherwise null. */
   const farmerIndex = findFarmer(farmers, rawId)
   if (farmerIndex === null) {
     throw new ResourceNotFoundError(`Farmer with ID ${rawId} is not found.`)
