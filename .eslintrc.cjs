@@ -30,6 +30,7 @@ module.exports = {
     '@stylistic/no-multiple-empty-lines': ['error', { max: 1 }],
     '@stylistic/no-tabs': 'error',
     '@stylistic/no-trailing-spaces': 'error',
+    '@stylistic/object-curly-spacing': ['error', 'always'],
     '@stylistic/quotes': ['error', 'single'],
     '@stylistic/semi': ['error', 'never'],
     '@typescript-eslint/explicit-function-return-type': 'error',

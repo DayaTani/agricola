@@ -5,7 +5,7 @@ import Farmer from '../../src/types/farmer'
 import FarmerDto from '../../src/types/farmer.dto'
 
 describe('createFarmer', () => {
-  const sampleFarmer: Farmer = { id: 1, name: 'Ingrid Bergman', idCardNumber: '0123456789', birthDate: '1911-02-01'}
+  const sampleFarmer: Farmer = { id: 1, name: 'Ingrid Bergman', idCardNumber: '0123456789', birthDate: '1911-02-01' }
   let validateSpy: jest.SpyInstance
 
   beforeEach(() => {
